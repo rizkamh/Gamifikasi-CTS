@@ -16,7 +16,11 @@
 		<li><a href="laporan/nilailaporan">Laporan Nilai</a></li>
 	</ul>
 </li>
-
+<li class="submenu"> <a href="#"><i class="icon icon-inbox"></i> <span>Aktifitas</span> <span class="icon icon-chevron-down pull-right" style="margin-right: 5px;"></span></a>
+	<ul>
+		<li><a href="aktifitas">Aktifitas Mahasiswa</a></li>
+	</ul>
+</li>
 
 </ul>
 </div>
@@ -140,6 +144,12 @@
 										<option value="M1">M1</option>
 									</select>
 									<span name="kelas"></span>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="password">Password</label>
+								<div class="controls">
+									<input type="password" id="password" name="password" class="form-control">
 								</div>
 							</div>
 						</form>

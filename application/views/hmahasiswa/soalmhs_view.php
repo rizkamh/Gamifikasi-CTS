@@ -72,89 +72,115 @@
 			</div>
 		</div>
 		<!-- ======================================================================= -->
-		<div class="row-fluid" id="tampilsoal">
-			<div class="span12">
-				<h1 class="pull-right" style="margin-right:45%;"><span id="timer"></span>
-					<!-- <button class="btn btn-info" style="margin-bottom:7px;" id="start">START</button> -->
-				</h1>
+<div class="row-fluid" id="tampilsoal">
+    <div class="span12">
+        <h1 class="pull-right" style="margin-right:45%;"><span id="timer"></span></h1>
+        <div class="widget-box">
+            <button class="btn btn-info pull-right" id="kembali" style="margin:3px 5px;">
+                <span class="icon-arrow-left"></span> Kembali
+            </button>
+            <div class="widget-title">
+                <span class="icon"><i class="icon-time"></i></span>
+                <h5>Kode soal : <span id="idsoaltp"></span> -- Tipe soal : <span id="tipesoaltp"></span></h5>
+            </div>
+            <div class="widget-content" id="listsoal1">
+                <form action="" id="form2">
+                    <input type="hidden" name="tipetugastp1" id="tipetugastp1">
+                    <input type="hidden" name="jlh" id="jlh">
+                    <input type="hidden" name="jlhup" id="jlhup">
+                    <input type="hidden" id="nim1" name="nim1" value="<?= $this->session->userdata("ses_id") ?>">
+                    <input type="hidden" name="nama1" id="nama1" value="<?= $this->session->userdata("ses_nama") ?>">
+                    <input type="hidden" name="idsoal" id="idsoal">
+                    <input type="hidden" name="tanggal" id="tanggal" value="<?= date('Y-m-d H:i:s'); ?>">
+                    <input type="hidden" id="abske">
+                    <input type="hidden" id="temp" name="temp">
+					
+                </form>
+                <ol start="1" id="listsoal" class="fontsoal">
+                    <form action="" id="form1">
+                        <div id="soal-container">
+                            <!-- Soal akan ditampilkan di sini -->
+                        </div>
+                    </form>
+                </ol>
+                <div class="form-actions">
+                    <button class="btn btn-info" id="prev-soal" onclick="prevSoal()">Previous</button>
+                    <button class="btn btn-info" style="display: none;" id="next-soal" onclick="nextSoal()">Next</button>
+					<button class="btn btn-info" id="check-answer" onclick="checkAnswer()">Check</button>
+					<button type="submit" id="selesai" class="btn btn-warning pull-right" style="margin-right:10px;">
+                        <span class="icon-ok"></span> Selesai
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-				<div class="widget-box">
-					<button class="btn btn-info pull-right" id="kembali" style="margin:3px 5px;">
-						<span class="icon-arrow-left"></span> Kembali</button>
-					<div class="widget-title"> <span class="icon"><i class="icon-time"></i></span>
-						<h5>Kode soal : <span id="idsoaltp"></span> -- Tipe soal : <span id="tipesoaltp"></span></h5>
-					</div>
-					<div class="widget-content" id="listsoal">
-						<form action="" id="form2">
-							<!-- <input type="hidden" name="kdmk" id="kdmk"> -->
-							<input type="hidden" name="tipetugastp1" id="tipetugastp1">
-							<input type="hidden" name="jlh" id="jlh">
-							<input type="hidden" name="jlhup" id="jlhup">
-							<input type="hidden" id="nim1" name="nim1" value="<?= $this->session->userdata("ses_id") ?>">
-							<input type="hidden" name="nama1" id="nama1" value="<?= $this->session->userdata("ses_nama") ?>">
-							<input type="hidden" name="idsoal" id="idsoal">
-							<input type="hidden" name="tanggal" id="tanggal" value="<?= date('Y-m-d H:i:s'); ?>">
-							<input type="hidden" id="abske">
-							<input type="hidden" id="temp" name="temp">
-						</form>
-						<style>
-						</style>
-						<ol start="1" id="listsoal" class="fontsoal">
-							<form action="" id="form1">
-
-							</form>
-						</ol>
-					</div>
-					<div class="form-actions">
-						<button type="submit" id="selesai" class="btn btn-warning pull-right" style="margin-right:10px;">
-							<span class="icon-ok"></span> Selesai</button>
-					</div>
-				</div>
+		<!-- Custom Modal -->
+		<div id="customModal" class="modal" style="display:none;">
+			<div class="modal-content">
+				<span class="close-button">×</span>
+				<h2>Konfirmasi Jawaban</h2>
+				<p>Apakah Anda yakin dengan jawaban Anda?</p>
+				<button id="yakin">Yakin</button>
+				<button id="takyakin">Tidak Yakin</button>
 			</div>
 		</div>
-		<!-- ============================================================== -->
-		<div class="row-fluid" id="tampilriwayat">
-			<div class="span12">
-				<div class="widget-box">
-					<button class="btn btn-info pull-right" id="kembali1" style="margin:3px 5px;">
-						<span class="icon-arrow-left"></span> Kembali</button>
-					<div class="widget-title"> <span class="icon"><i class="icon-time"></i></span>
-						<h5>Tipe soal : <span id="tipesoaltp1"></span></h5>
 
-					</div>
-					<div class="widget-content" id="listsoal">
-						<!-- <form action="" id="form2">
+		<div id="customModalEsai" class="modal" style="display:none;">
+			<div class="modal-content">
+				<span class="close-button">×</span>
+				<h2>Konfirmasi Jawaban</h2>
+				<p>Apakah Anda yakin dengan jawaban Anda?</p>
+				<button id="yakinEssai">Yakin</button>
+				<button id="takyakinEssai">Tidak Yakin</button>
+			</div>
+		</div>
+	</div>
+
+<!-- ============================================================== -->
+<div class="row-fluid" id="tampilriwayat">
+	<div class="span12">
+		<div class="widget-box">
+			<button class="btn btn-info pull-right" id="kembali1" style="margin:3px 5px;">
+				<span class="icon-arrow-left"></span> Kembali</button>
+			<div class="widget-title"> <span class="icon"><i class="icon-time"></i></span>
+				<h5>Tipe soal : <span id="tipesoaltp1"></span></h5>
+
+			</div>
+			<div class="widget-content" id="listsoal">
+				<!-- <form action="" id="form2">
 							<input type="hidden" name="jlh" id="jlh">
 							<input type="hidden" id="nim1" name="nim1" value="<?= $this->session->userdata("ses_id") ?>">
 							<input type="hidden" name="idsoal" id="idsoal">
 							<input type="hidden" name="tanggal" id="tanggal" value="<?= date('Y-m-d H:i:s'); ?>">
 						</form> -->
 
-						<ol start="1" id="listsoal" class="fontsoal">
-							<form action="" id="form3">
-								<!-- <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique atque laudantium minima perspiciatis doloribus rem doloremque dolores amet quasi quas expedita mollitia facilis quibusdam dolor, sint nostrum, consectetur ullam? Pariatur.</li>
+				<ol start="1" id="listsoal" class="fontsoal">
+					<form action="" id="form3">
+						<!-- <li>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique atque laudantium minima perspiciatis doloribus rem doloremque dolores amet quasi quas expedita mollitia facilis quibusdam dolor, sint nostrum, consectetur ullam? Pariatur.</li>
 							<textarea class="span12" name="jawab" id="jawab" cols="5" rows="5"
 										style="resize:vertical; margin-top:10px;" readonly>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus repellat ullam eveniet quibusdam dolorum fuga voluptatum mollitia sed soluta, ipsa magnam voluptates nobis sit quis saepe! Ab architecto fugit doloremque!</textarea>
 							<br> -->
-							</form>
-						</ol>
-					</div>
-				</div>
+					</form>
+				</ol>
 			</div>
 		</div>
-		<!-- ============================================================== -->
-		<div class="row-fluid" id="tampilnilai">
-			<div class="span6 offset3">
-				<div class="widget-box">
-					<button class="btn btn-info pull-right" id="kembali2" style="margin:3px 5px;">
-						<span class="icon-arrow-left"></span> Kembali</button>
-					<div class="widget-title"> <span class="icon"><i class="icon-ok-circle alert-success"></i></span>
-						<h5></h5>
-					</div>
-					<input type="hidden" name="nama" id="nama" value="<?= $this->session->userdata("ses_nama") ?>">
-					<div class="widget-content" id="hasilnilai">
+	</div>
+</div>
+<!-- ============================================================== -->
+<div class="row-fluid" id="tampilnilai">
+	<div class="span6 offset3">
+		<div class="widget-box">
+			<button class="btn btn-info pull-right" id="kembali2" style="margin:3px 5px;">
+				<span class="icon-arrow-left"></span> Kembali</button>
+			<div class="widget-title"> <span class="icon"><i class="icon-ok-circle alert-success"></i></span>
+				<h5></h5>
+			</div>
+			<input type="hidden" name="nama" id="nama" value="<?= $this->session->userdata("ses_nama") ?>">
+			<div class="widget-content" id="hasilnilai">
 
-						<!-- <table class="fontsoal" style="width:500px; font-size:15px;">
+				<!-- <table class="fontsoal" style="width:500px; font-size:15px;">
 							<tr>
 								<td style="width:50px;"><strong>NIM</strong></td>
 								<td style="width:180px;">: <?= $this->session->userdata('ses_id') ?></td>
@@ -185,32 +211,32 @@
 							</tr>
 						</table>
 						<hr> -->
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row-fluid" id="tampilstart">
-			<div class="span12 offset4">
-				<button class="btn btn-large btn-info" id="startkembali">Kembali</button>
-				<button class="btn btn-large btn-warning" id="start">Mulai Kerjakan</button>
-			</div>
-			<div class="span6 offset3" style="margin-top:20px; font-family:serif;">
-				<span>
-					<h2 style="color:red;"> <b>Peringatan!</b></h2>
-					<h5>
-						<p>Waktu pengerjaan 30 menit. </p>
-					</h5>
-					<h5>
-						<p>Jawaban akan tersimpan jika Anda mencoba untuk reload/menutup browser! </p>
-					</h5>
-				</span>
 			</div>
 		</div>
 	</div>
 </div>
+<div class="row-fluid" id="tampilstart">
+	<div class="span12 offset4">
+		<button class="btn btn-large btn-info" id="startkembali">Kembali</button>
+		<button class="btn btn-large btn-warning" id="start">Mulai Kerjakan</button>
+	</div>
+	<div class="span6 offset3" style="margin-top:20px; font-family:serif;">
+		<span>
+			<h2 style="color:red;"> <b>Peringatan!</b></h2>
+			<h5>
+				<p>Waktu pengerjaan 30 menit. </p>
+			</h5>
+			<h5>
+				<p>Jawaban akan tersimpan jika Anda mencoba untuk reload/menutup browser! </p>
+			</h5>
+		</span>
+	</div>
+</div>
+</div>
+</div>
 <?php $this->load->view('components/foot'); ?>
 <script src="assets/js/app/myfunction.js"></script>
-<script src="assets/js/app/hmahasiswa/soalmhs.js"></script>
+<script src="assets/js/app/hmahasiswa/soalmhs7.js"></script>
 <?php $this->load->view('components/jsfoot'); ?>
 
 <script src="assets/ckeditor/ckeditor.js"></script>

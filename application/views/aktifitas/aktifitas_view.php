@@ -18,9 +18,10 @@
 		<li><a href="laporan/nilailaporan">Laporan Nilai</a></li>
 	</ul>
 </li>
-<li class="submenu"> <a href="#"><i class="icon icon-print"></i> <span>Aktifitas</span> <span class="icon icon-chevron-down pull-right" style="margin-right: 5px;"></span></a>
+
+<li class="submenu"> <a href="#"><i class="icon icon-inbox"></i> <span>Aktifitas</span> <span class="icon icon-chevron-down pull-right" style="margin-right: 5px;"></span></a>
 	<ul>
-		<li><a href="aktifitas/aktifitasMahasiswa">Aktifitas Mahasiswa</a></li>
+		<li><a href="aktifitas">Aktifitas Mahasiswa</a></li>
 	</ul>
 </li>
 
@@ -32,7 +33,7 @@
 		<div id="breadcrumb"> <a href="home" title="Go to Home" class="tip-bottom"><i class="icon-home"></i>
 				Home</a> <a href="aktifitas" class="current">Aktifitas</a> </div>
 		<h1><span class="icon-briefcase"></span>
-			Aktifitas <small>Aktifitas Mahasiswa</small></h1>
+			Aktifitas <small>Mahasiswa</small></h1>
 	</div>
 	<hr>
 

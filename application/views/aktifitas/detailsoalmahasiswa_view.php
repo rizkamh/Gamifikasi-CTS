@@ -18,7 +18,7 @@
 		<li><a href="laporan/nilailaporan">Laporan Nilai</a></li>
 	</ul>
 </li>
-<li class="submenu"> <a href="#"><i class="icon icon-print"></i> <span>Aktifitas</span> <span class="icon icon-chevron-down pull-right" style="margin-right: 5px;"></span></a>
+<li class="submenu"> <a href="#"><i class="icon icon-inbox"></i> <span>Aktifitas</span> <span class="icon icon-chevron-down pull-right" style="margin-right: 5px;"></span></a>
 	<ul>
 		<li><a href="aktifitas">Aktifitas Mahasiswa</a></li>
 	</ul>
@@ -69,7 +69,6 @@
 						<tr>
 							<th>Nomer</th>
 							<th>Kategori</th>
-							<th>Nomer pertanyaan</th>
 							<th>Nomer soal</th>
 							<th>Pertanyaan</th>
 							<th>jawaban</th>
@@ -85,7 +84,6 @@
 							<tr>
 								<td><?php echo $no++; ?></td>
 								<td><?php echo $activity['nama_level'] ?></td>
-								<td><?php echo $activity['idsoal']; ?></td>
 								<td><?php echo $activity['nosoal']; ?></td>
 								<td><?php echo $activity['isisoal']; ?></td>
 								<td>

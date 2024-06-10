@@ -61,7 +61,7 @@
 		<div class="row-fluid mt-3">
 			<div class="quick-actions_homepage offset1">
 				<ul class="quick-actions">
-					<li class="bg_lb" style="width: 250px;"> <a href="#">
+					<li class="bg_lb" style="width: 250px;"> <a>
 							<div style="display: flex; flex-direction: row-reverse;"> <i class="icon-file" style="margin-top: 18px;
     margin-left: 1px;"></i>
 								<div class="col" style="text-align: left;">
@@ -70,25 +70,25 @@
 								</div>
 							</div>
 						</a> </li>
-					<li class="bg_lo" style="width: 250px;"> <a href="#">
+					<li class="bg_lo" style="width: 300px;"> <a>
 							<div style="display: flex; flex-direction: row-reverse;"> <i class="icon-remove-sign" style="margin-top: 18px;
     margin-left: 15px;"></i>
 								<div class="col" style="text-align: left;">
 									<h3><?= $total_incorrect ?></h3>
-									<h4>Jawaban Salah</h4>
+									<h4>Total Jawaban Salah</h4>
 								</div>
 							</div>
 						</a> </li>
-					<li class="bg_lg" style="width: 250px;"> <a href="#">
+					<li class="bg_lg" style="width: 300px;"> <a>
 							<div style="display: flex; flex-direction: row-reverse;"> <i class="icon-thumbs-up" style="margin-top: 18px;
     margin-left: 15px;"></i>
 								<div class="col" style="text-align: left;">
 									<h3><?= $total_correct ?></h3>
-									<h4>Jawaban Benar:</h4>
+									<h4>Total Jawaban Benar:</h4>
 								</div>
 							</div>
 						</a> </li>
-					<li class="bg_ly" style="width: 250px;"> <a href="#">
+					<li class="bg_ly" style="width: 250px;"> <a>
 							<div style="display: flex; flex-direction: row-reverse;"> <i class="icon-time" style="margin-top: 18px;
     margin-left: 70px;"></i>
 								<div class="col" style="text-align: left;">
@@ -109,10 +109,6 @@
 						<tr>
 							<th>Nomer</th>
 							<th>Kategori</th>
-							<th>Nomer pertanyaan</th>
-							
-							<th>Hasil</th>
-							<th>Waktu</th>
 							<th>action</th>
 						</tr>
 					</thead>
@@ -122,10 +118,6 @@
 							<tr>
 								<td><?php echo $no++; ?></td>
 								<td><?php echo $activity['nama_level'] ?></td>
-								<td><?php echo $activity['idsoal']; ?></td>
-								
-								<td><?php echo $activity['nilai']; ?></td>
-								<td><?php echo $activity['timer']; ?></td>
 								<td><a href="<?= base_url('aktifitas/detailsoalmahasiswa/' . $activity['nim'] . '/' . $activity['idsoal']); ?>" class='btn btn-info btn-block'>
 										<span class='icon-pencil'></span> Detail Soal
 									</a></td>

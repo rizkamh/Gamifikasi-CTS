@@ -41,34 +41,37 @@ class Aktifitas extends CI_Model
     }
 
 
-    public function getTotalQuestions()
+    public function getTotalQuestions($nim)
     {
         $this->db->from('tblriwayatnilai');
-        $this->db->group_by('idsoal');
+        $this->db->where('nim', $nim);
         return $this->db->count_all_results();
     }
 
-    public function getTotalCorrectAnswers()
+    public function getTotalCorrectAnswers($nim)
     {
         $this->db->from('tblriwayatnilai');
-        $this->db->where('nilai', 1);
-        $this->db->group_by('idsoal');
+        $this->db->where('nilai >', 1);
+        $this->db->where('nim', $nim);
         return $this->db->count_all_results();
     }
 
-    public function getTotalIncorrectAnswers()
+    public function getTotalIncorrectAnswers($nim)
     {
+        $this->db->select('idsoal');
         $this->db->from('tblriwayatnilai');
         $this->db->where('nilai', 0);
-        $this->db->group_by('idsoal');
-        return $this->db->count_all_results();
+        $this->db->where('nim', $nim);
+        $query = $this->db->get();
+        
+        return $query->num_rows();
     }
 
-    public function getTotalTime()
+    public function getTotalTime($nim)
     {
         $this->db->select_sum('timer');
         $this->db->from('tblriwayatnilai');
-        $this->db->group_by('idsoal');
+        $this->db->where('nim', $nim);
         $result = $this->db->get()->row();
         return $result->timer;
     }

@@ -85,12 +85,12 @@
             <!-- About Section Content-->
             <div class="row">
                 <div class="col-lg-4 ms-auto">
-                    <p class="lead">Rizka .</br>NIM: 1941723004</p>
+                    <p class="lead">RIZKA MUSYAROFATUL HIDAYAH</br>NIM: 2041720095</p>
                     <p class="lead">Politeknik Negeri Malang</br>Kampus Utama, Malang, Jawa Timur </p>
                 </div>
                 <div class="col-lg-4 me-auto">
-                    <p class="lead">Email: </br>lisuardidina@gmail.com</p>
-                    <p class="lead">Social Media: </br>@dinalisuardi</p>
+                    <p class="lead">Email: </br>rizkamusyarofatul@gmail.com</p>
+                    <p class="lead">Social Media: </br>@rizkamsyh</p>
                 </div>
             </div>
             <!-- About Section Button-->
@@ -208,6 +208,11 @@
                             </select>
                             <label for="kelas">Kelas</label>
                             <div class="invalid-feedback" data-sb-feedback="kelas:required">A Kelas is required.</div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="password" type="password" name="password" placeholder="password kamu" data-sb-validations="required" />
+                            <label for="password">Password</label>
+                            <div class="invalid-feedback" data-sb-feedback="password:required">A Password required.</div>
                         </div>
                         <!-- Submit success message-->
                         <!---->

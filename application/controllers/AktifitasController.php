@@ -20,10 +20,10 @@ class AktifitasController extends CI_Controller {
 
 	public function showStudentActivity($idnilai, $level='all') {
 		$data['studentActivities'] = $this->aktifitas->getCofidentKondisi($idnilai, $level);
-		$data['total_questions'] = $this->aktifitas->getTotalQuestions();
-        $data['total_correct'] = $this->aktifitas->getTotalCorrectAnswers();
-        $data['total_incorrect'] = $this->aktifitas->getTotalIncorrectAnswers();
-        $data['total_time'] = $this->aktifitas->getTotalTime();
+		$data['total_questions'] = $this->aktifitas->getTotalQuestions($idnilai);
+        $data['total_correct'] = $this->aktifitas->getTotalCorrectAnswers($idnilai);
+        $data['total_incorrect'] = $this->aktifitas->getTotalIncorrectAnswers($idnilai);
+        $data['total_time'] = $this->aktifitas->getTotalTime($idnilai);
 		$this->load->view('aktifitas/detailmahasiswa_view', $data);
 	}
 

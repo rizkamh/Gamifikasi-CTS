@@ -21,7 +21,7 @@ class Register extends CI_Controller {
           "prodi" => $this->input->post("prodi"),
           "kelas" => $this->input->post("kelas"),
           "semester" => $this->input->post("semester"),
-          "password" => do_hash("123456","md5")
+          "password" => md5($this->input->post("password")) 
         );
         $status = $this->mahasiswa_model->createMahasiswa($data);
         redirect('login');

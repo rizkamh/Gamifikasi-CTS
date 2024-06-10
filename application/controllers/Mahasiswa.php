@@ -78,7 +78,7 @@ class Mahasiswa extends CI_Controller {
 				"prodi" => $this->input->post("prodi"),
 				"kelas" => $this->input->post("kelas"),
 				"semester" => $this->input->post("semester"),
-				"password" => do_hash("123456","md5")
+				"password" => md5($this->input->post("password")) 
 			);
 	
 			if($mode=="add"){
@@ -102,7 +102,8 @@ class Mahasiswa extends CI_Controller {
 					"telepon" => form_error("telepon"),
 					"prodi" => form_error("prodi"),
 					"semester" => form_error("semester"),
-					"kelas" => form_error("kelas")
+					"kelas" => form_error("kelas"),
+					"password" => $this->input->post("password")
 				)
 			));
 		}

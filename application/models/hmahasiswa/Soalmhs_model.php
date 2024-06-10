@@ -2,21 +2,21 @@
 
 class Soalmhs_model extends CI_Model{
     public function ambilriwayat($nim,$level='all'){
-        $sql = 'SELECT `tblriwayatsoal`.*, `tblsoalpilgan`.`idlevel` FROM `tblriwayatsoal` 
-        JOIN `tblsoalpilgan` ON `tblsoalpilgan`.`idsoalpil` = `tblriwayatsoal`.`idsoalriw` 
+        $sql = 'SELECT `tblriwayatsoal`.*, `tblsoalpilgan`.`idlevel` FROM `tblriwayatsoal`
+        JOIN `tblsoalpilgan` ON `tblsoalpilgan`.`idsoalpil` = `tblriwayatsoal`.`idsoalriw`
         WHERE `nim` = ?';
-        if($level!='all'){
-            $sql .= ' AND `tblsoalpilgan`.`idlevel` = '.$level.'';
+        if ($level != 'all') {
+            $sql .= ' AND `tblsoalpilgan`.`idlevel` = ' . $level . '';
         }
         $sql .= ' GROUP BY `idsoalriw` UNION ALL
-        SELECT `tblriwayatsoal`.*, `tblsoalesai`.`idlevel` FROM `tblriwayatsoal` 
-        JOIN `tblsoalesai` ON `tblsoalesai`.`idsoal` = `tblriwayatsoal`.`idsoalriw` 
+        SELECT `tblriwayatsoal`.*, `tblsoalesai`.`idlevel` FROM `tblriwayatsoal`
+        JOIN `tblsoalesai` ON `tblsoalesai`.`idsoal` = `tblriwayatsoal`.`idsoalriw`
         WHERE `nim` = ?';
-        if($level!='all'){
-            $sql .= ' AND `tblsoalesai`.`idlevel` =  '.$level.'';
+        if ($level != 'all') {
+            $sql .= ' AND `tblsoalesai`.`idlevel` =  ' . $level . '';
         }
         $sql .= ' GROUP BY `idsoalriw` ORDER BY `idsoalriw` ASC';
-        $query = $this->db->query($sql, array($nim,$nim));
+        $query = $this->db->query($sql, array($nim, $nim));
         return $query;
     }
 
@@ -27,10 +27,11 @@ class Soalmhs_model extends CI_Model{
         return $query;
     }
 
-    public function getpilgan($idsoalpil){
+    public function getpilgan($idsoalpil)
+    {
         $query = $this->db
-                    ->where("idsoalpil",$idsoalpil)
-                    ->get("tblsoalpilgan");
+            ->where("idsoalpil", $idsoalpil)
+            ->get("tblsoalpilgan");
         return $query;
     }
 
@@ -74,15 +75,16 @@ class Soalmhs_model extends CI_Model{
     }
     
 
-    public function tampilsoalselesai($nim,$tipesoal,$idsoal){
-        $query = $this->db
-                    // ->select_max('tanggal')
-                    ->where("nim",$nim)
-                    ->where("tipesoal",$tipesoal)
-                    ->where("idsoal",$idsoal)
-                    ->get("tblriwayatnilai");
+    public function tampilsoalselesai($nim, $tipesoal, $idsoal) {
+        $this->db->select('nim, tipesoal, idsoal, tipetugas, jawabesai, tanggal, SUM(nilai) as total_nilai');
+        $this->db->where("nim", $nim);
+        $this->db->where("tipesoal", $tipesoal);
+        $this->db->where("idsoal", $idsoal);
+        $this->db->group_by(array("nim", "tipesoal"));
+        $query = $this->db->get("tblriwayatnilai");
         return $query;
     }
+    
 
     public function tampilnilai($nim,$tipesoal,$idsoal){
         $query = $this->db

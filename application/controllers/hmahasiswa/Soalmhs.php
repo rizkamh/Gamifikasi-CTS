@@ -290,67 +290,35 @@ class Soalmhs extends CI_Controller
 		}
 	}
 
-	public function simpanesai()
-	{
-		// $tipetugas = $this->input->post("tipetugastp1");
-		// $nimkel = $this->session->userdata('ses_id');
-		// $qry = $this->db->query("select kelompok from tblabsensi where nim = '$nimkel'");
-		// foreach ($qry->result() as $item) {
-		// 	$kel = $item->kelompok;
-		// }
-		// $qry1 = $this->db->query("select * from tblabsensi where kelompok = '$kel'");
-		// $nimkelompok = array();
-		// $pjgkel = 0;
-		// foreach ($qry1->result() as $item1) {
-		// 	 $nimkelompok[] = $item1;
-		// 	 $pjgkel++;
-		// }
-		// if ($tipetugas == 'kelompok') {
-		// 	for ($x=0; $x < $pjgkel; $x++) { 
-		// 		$jlh = $this->input->post("jlh");
-		// 		for ($i=0; $i <= $jlh ; $i++) { 
-		// 			$data = array(
-		// 				"kodemk" => $this->session->userdata("ses_kodemk"),
-		// 				"nim" => $nimkelompok[$x]->nim,	
-		// 				"nama" => $nimkelompok[$x]->namamhs,	
-		// 				"tipesoal" => "e",	
-		// 				"tipetugas" => $this->input->post("tipetugastp1"),
-		// 				"idsoal" => $this->input->post("idsoal"),	
-		// 				"nosoal" => $i+1,
-		// 				"isisoal" => $this->input->post("tanya".$i),
-		// 				"jawabesai" => $this->input->post("jawaban".$i),
-		// 				"status" => "proses",
-		// 				"nilai" => 0,
-		// 				"tanggal" => $this->input->post("tanggal"),
-		// 				"kelompok" => $kel
-		// 			);
-		// 			$status = $this->soalmhs_model->addnilaiesai($data);
-		// 		}
-		// 		$upd = array(
-		// 			"status" => "proses",
-		// 			"kelompok" => $kel
-		// 		);
-		// 		$ids = $this->input->post("idsoal");
-		// 		$nim = $nimkelompok[$x]->nim;
-		// 		$status = $this->soalmhs_model->update($ids,"e",$nim,$upd);
-		// 		// echo json_encode(array("status" => TRUE));
-		// 		$this->session->set_flashdata('berhasil','Jawaban berhasil terkirim.');	
-		// 	}
-		// } else {
+	public function simpanesai() {
+		$confident = $this->input->post("confident");
 		$jlh = $this->input->post("jlh");
+	
+		// Debugging statements
+		log_message('debug', 'Confident: ' . $confident);
+		log_message('debug', 'Jumlah: ' . $jlh);
+	
 		for ($i = 0; $i <= $jlh; $i++) {
-			$confidence = $this->input->post("confident" . $i); 
+			$isisoal = $this->input->post("tanya" . $i);
+			$jawabesai = $this->input->post("jawaban" . $i);
+			$idsoal = $this->input->post("idsoal");
+	
+			// Debugging statements
+			log_message('debug', 'Question ' . $i . ': ' . $isisoal);
+			log_message('debug', 'Answer ' . $i . ': ' . $jawabesai);
+			log_message('debug', 'ID Soal ' . $i . ': ' . $idsoal);
+	
 			$data = array(
 				"kodemk" => 'MK1',
 				"nim" => $this->input->post("nim1"),
 				"nama" => $this->input->post("nama1"),
 				"tipesoal" => "e",
 				"tipetugas" => $this->input->post("tipetugastp1"),
-				"idsoal" => $this->input->post("idsoal"),
+				"idsoal" => $idsoal,
 				"nosoal" => $i + 1,
-				"isisoal" => $this->input->post("tanya" . $i),
-				"jawabesai" => $this->input->post("jawaban" . $i),
-				"confident" => $confidence, 
+				"isisoal" => $isisoal,
+				"jawabesai" => $jawabesai,
+				"confident" => $confident,
 				"status" => "proses",
 				"nilai" => 0,
 				"tanggal" => $this->input->post("tanggal")
@@ -364,11 +332,9 @@ class Soalmhs extends CI_Controller
 		$nim = $this->input->post("nim1");
 		$status = $this->soalmhs_model->update($ids, "e", $nim, $upd);
 		$this->session->set_flashdata('berhasil', 'Jawaban berhasil terkirim.');
-		// }
 		echo json_encode(array("status" => TRUE));
-		// redirect('subbuatdiskusi');
 	}
-
+	
 	public function uppilgan()
 	{
 		$akhir = $this->ambillast(); //angka terakhir idsoal
@@ -399,83 +365,124 @@ class Soalmhs extends CI_Controller
 			$idnilai = ($mulai - 1) + $i;
 			// echo $idnilai;
 			$status = $this->soalmhs_model->updatenilai($idnilai, $data);
+			
 		}
 		echo json_encode(array("status" => TRUE));
 	}
 
-	public function simpanpilgan()
-	{
-		$jlh = $this->input->post("jlh");
-		$nilai = 0;
-		// print_r($this->input->post());
-		// exit();
-		for ($i = 0; $i <= $jlh; $i++) {
-			$koreksi = $this->db->query('select * from tblsoalpilgan where idsoalpil = ? and nopilgan = ?', [$this->input->post("idsoal"), $this->input->post("nomor" . $i)])->row_array();
-			$benar = 0;
-			// print_r($this->input->post("jbpil".$i));
-			// echo  "<br>";
-			// print_r($koreksi['jawabanpilgan']);
-			// echo  "<br>";
-			if ($this->input->post("jbpil" . $i) == $koreksi['jawabanpilgan']) {
-				if ($koreksi['idlevel'] == 1) {
-					$benar = 10;
-					$nilai = $nilai + 10;
-				} elseif ($koreksi['idlevel'] == 2) {
-					$benar = 20;
-					$nilai = $nilai + 20;
-				} else {
-					$benar = 30;
-					$nilai = $nilai + 30;
+	public function simpanpilgan() {
+		// Get the raw POST data
+		$rawData = file_get_contents("php://input");
+		$data = json_decode($rawData, true);
+	
+		// Check if data is correctly received
+		if (is_array($data) && isset($data['formData']) && isset($data['serializedFormData'])) {
+			$formData = $data['formData'];
+			$serializedFormData = [];
+			
+			// Ensure serializedFormData is an array
+			if (is_array($data['serializedFormData'])) {
+				foreach ($data['serializedFormData'] as $item) {
+					$serializedFormData[$item['name']] = $item['value'];
 				}
 			}
-			$confidence = $this->input->post("confident" . $i); 
-			$data = array(
-				"kodemk" => 'MK1',
-				"nim" => $this->input->post("nim1"),
-				"timer" => $this->input->post("timer"),
-				"nama" => $this->input->post("nama1"),
-				"tipesoal" => "p",
-				"tipetugas" => $this->input->post("tipetugastp1"),
-				"idsoal" => $this->input->post("idsoal"),
-				"nosoal" => $i + 1,
-				"isisoal" => $this->input->post("tanya" . $i),
-				"jawabpilgan" => $this->input->post("jbpil" . $i),
-				"a" => $this->input->post("pila" . $i),
-				"b" => $this->input->post("pilb" . $i),
-				"c" => $this->input->post("pilc" . $i),
-				"d" => $this->input->post("pild" . $i),
-				"status" => "selesai",
-				"confident" => $confidence,
-				"nilai" => $benar,
-				"tanggal" => $this->input->post("tanggal")
-			);
-			// echo  "<br>";
-			// print_r($data);
-			// echo  "<br>";
-			$status = $this->soalmhs_model->addnilaipilgan($data);
+	
+		 // Retrieve additional data from the combined data
+		 $nim = isset($data['nim']) ? $data['nim'] : null;
+		 $nama = isset($data['nama']) ? $data['nama'] : null;
+		 $timer = isset($data['timer']) ? $data['timer'] : null;
+		 $tipetugas = isset($data['tipetugastp1']) ? $data['tipetugastp1'] : null;
+		 $tanggal = isset($data['tanggal']) ? $data['tanggal'] : null;
+			// Debugging statements
+			log_message('debug', 'Form Data: ' . print_r($formData, true));
+			log_message('debug', 'Serialized Form Data: ' . print_r($serializedFormData, true));
+			log_message('debug', 'NIM: ' . $nim);
+			log_message('debug', 'Nama: ' . $nama);
+			log_message('debug', 'Timer: ' . $timer);
+			log_message('debug', 'Tipetugas: ' . $tipetugas);
+			log_message('debug', 'Tanggal: ' . $tanggal);
+	
+			// Process the form data and localStorage data
+			foreach ($formData as $questionData) {
+				$confident = $questionData["confident"];
+				$nilai = 0;
+	
+				$idsoal = isset($questionData["idsoal"]) ? $questionData["idsoal"] : null;
+				$nopilgan = isset($questionData["nopilgan"]) ? $questionData["nopilgan"] : null;
+				// Process each question
+				$koreksi = $this->db->query('select * from tblsoalpilgan where idsoalpil = ? and nopilgan = ?', [$idsoal, $nopilgan])->row_array();
+				$benar = 0;
+	
+				if ($koreksi && strtolower($questionData["jawaban"]) == strtolower($koreksi['jawabanpilgan'])) {
+					if ($koreksi['idlevel'] == 1) {
+						$benar = 10;
+						$nilai += 10;
+					} elseif ($koreksi['idlevel'] == 2) {
+						$benar = 20;
+						$nilai += 20;
+					} else {
+						$benar = 30;
+						$nilai += 30;
+					}
+				}
+	
+				$data = array(
+					"kodemk" => 'MK1',
+					"nim" => $nim,
+					"nama" => $nama,
+					"timer" => $timer,
+					"tipesoal" => "p",
+					"tipetugas" => $tipetugas,
+					"idsoal" => $questionData["idsoal"],
+					"nosoal" => $questionData["nopilgan"],
+					"isisoal" => $questionData["isiesai"],
+					"jawabpilgan" => $questionData["jawaban"],
+					"a" => $questionData["a"],
+					"b" => $questionData["b"],
+					"c" => $questionData["c"],
+					"d" => $questionData["d"],
+					"status" => "selesai",
+					"confident" => $confident,
+					"nilai" => $benar,
+					"tanggal" => $tanggal
+				);
+	
+				// Log the data being saved for debugging
+				log_message('debug', 'Saving Data: ' . json_encode($data));
+	
+				$status = $this->soalmhs_model->addnilaipilgan($data);
+	
+				$upd = array(
+					"status" => "selesai",
+					"timer" => $timer,
+					"nilai" => $nilai,
+				);
+	
+				$ids = $idsoal;
+				$status = $this->soalmhs_model->update($ids, "p", $nim, $upd);
+	
+				// Log the update status for debugging
+				// log_message('debug', 'Update Status: ' . json_encode($status));
+			}
+	
+			echo json_encode(array("status" => TRUE));
+			$this->session->set_flashdata('berhasil', 'Jawaban berhasil terkirim.');
+		} else {
+			// Log the error for debugging
+			log_message('error', 'Invalid data received: ' . print_r($data, true));
+			echo json_encode(array("status" => FALSE, "message" => "Invalid data received"));
 		}
-		$upd = array(
-			"status" => "selesai",
-			"timer" => $this->input->post("timer"),
-			"nilai" => $nilai
-		);
-		$ids = $this->input->post("idsoal");
-		$nim = $this->input->post("nim1");
-		$status = $this->soalmhs_model->update($ids, "p", $nim, $upd);
-		echo json_encode(array("status" => TRUE));
-		$this->session->set_flashdata('berhasil', 'Jawaban berhasil terkirim.');
-		// redirect('subbuatdiskusi');
 	}
-
+	
 	public function tampil($nim, $tipesoal, $idsoal)
 	{
-		echo json_encode($this->soalmhs_model
-			->tampilsoalselesai($nim, $tipesoal, $idsoal)->result());
+		$result = $this->soalmhs_model->tampilsoalselesai($nim, $tipesoal, $idsoal)->result();
+		echo json_encode($result);
 	}
 
-	public function tampilnilai($nim, $tipesoal, $idsoal)
-	{
-		echo json_encode($this->soalmhs_model
-			->tampilsoalselesai($nim, $tipesoal, $idsoal)->result());
+	public function tampilnilai($nim, $tipesoal, $idsoal) {
+		$result = $this->soalmhs_model->tampilsoalselesai($nim, $tipesoal, $idsoal)->result();
+		echo json_encode($result);
 	}
+	
 }
